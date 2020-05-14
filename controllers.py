@@ -3,6 +3,8 @@
 from aplicacao import app
 from flask import render_template
 from banco import bd
+from flask import redirect
+from flask import request
 
 
 @app.route('/')
@@ -44,6 +46,21 @@ def mensagem():
     context = {'titulo': 'Escrever mensagem',
             'menu': menu}
     return render_template('mensagem.html', **context)
+
+@app.route('/mensagem/gravar', methods=['POST'])
+
+def gravar_mensagem():
+
+    sql = '''insert into mensagens (usuario, texto) values (?, ?)'''
+    primeiro_interrogacao = request.form['usuario']
+    segundo_interrogacao = request.form['texto']
+    request.form['campo']
+
+    bd().execute(sql, [primeiro_interrogacao, segundo_interrogacao])
+
+    bd().commit()
+
+    return redirect('/')
 
 
 app.run()
